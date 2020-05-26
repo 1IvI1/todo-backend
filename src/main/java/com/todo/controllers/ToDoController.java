@@ -35,6 +35,20 @@ public class ToDoController {
         for (int i = 0; i < toDos.size(); i++) {
             if(toDos.get(i).id.equals(toDo.id)) {
                 toDos.set(i,toDo);
+                break;
+            }
+        }
+        toDoRepository.saveAll(toDos);
+        return toDoRepository.findAll();
+    }
+
+    @PutMapping("/update/{id}/status")
+    public @ResponseBody List<ToDo> updateStatusById(@PathVariable Integer id, @RequestBody ToDo toDo) {
+        List<ToDo> toDos = toDoRepository.findAll();
+        for (int i = 0; i < toDos.size(); i++) {
+            if(toDos.get(i).id.equals(toDo.id)) {
+                toDos.set(i,toDo);
+                break;
             }
         }
         toDoRepository.saveAll(toDos);
@@ -43,7 +57,7 @@ public class ToDoController {
 
     @PostMapping("/create")
     public @ResponseBody List<ToDo> createTodo(@RequestBody ToDo toDo) {
-        toDo.status = "pending";
+        toDo.status = "todo";
         toDoRepository.save(toDo);
         return toDoRepository.findAll();
     }
